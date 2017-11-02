@@ -103,6 +103,7 @@ _mod_unsigned:
 _min_check:
 	CMP R2, R3				@ check to see if R2 <= R3
 	MOVLE R3, R2			@ new min value is R2
+	PUSH {LR}
 	PUSH {R0}
 	PUSH {R1}
 	LDR R0, =debug_str
@@ -110,6 +111,7 @@ _min_check:
 	BL printf
 	POP {R1}
 	POP {R0}
+	POP {PC}
 	MOV PC, LR				@ return
 	
 _max_check:
