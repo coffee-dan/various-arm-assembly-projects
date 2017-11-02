@@ -4,6 +4,8 @@
 main:
     BL _seedrand            @ seed random number generator with current time
     MOV R0, #0              @ initialze index variable
+	MOV R3, #999			@ initialize max value for _min_check
+	MOV R4, #0				@ initialize min value for _max_check
 writeloop:
     CMP R0, #10             @ check to see if we are done iterating
     BEQ writedone           @ exit loop if done
@@ -35,12 +37,20 @@ readloop:
     MOV R2, R1              @ move array value to R2 for printf
     MOV R1, R0              @ move array index to R1 for printf
     BL  _printf             @ branch to print procedure with return
+	BL  _min_check
+	BL  _max_check
     POP {R2}                @ restore register
     POP {R1}                @ restore register
     POP {R0}                @ restore register
     ADD R0, R0, #1          @ increment index
     B   readloop            @ branch to next loop iteration
 readdone:
+    LDR R0, =min_str
+	MOV R1, R3
+	BL printf
+	LDR R0, =max_str
+	MOV R1, R4
+	BL printf
     B _exit                 @ exit if done
     
 _exit:  
@@ -75,7 +85,7 @@ _getrand:
     POP {PC}                @ return 
 	
 _mod_unsigned:
-    cmp R2, R1          	@ check to see if R1 >= R2
+    CMP R2, R1          	@ check to see if R1 >= R2
     MOVHS R0, R1        	@ swap R1 and R2 if R2 > R1
     MOVHS R1, R2        	@ swap R1 and R2 if R2 > R1
     MOVHS R2, R0     	   	@ swap R1 and R2 if R2 > R1
@@ -89,12 +99,24 @@ _mod_unsigned:
         BHS _modloop   	 	@ continue loop if R1 >= R2
     MOV R0, R1          	@ move remainder to R0
     MOV PC, LR          	@ return
+	
+_min_check:
+	CMP R2, R3				@ check to see if R2 < R3
+	MOVLT R3, R2			@ new min value is R2
+	MOV PC, LR				@ return
+	
+_max_check:
+	CMP R2, R4				@ check to see if R2 > R4
+	MOVGT R4, R2			@ new max value is R2
+	MOV PC, LR				@ return
    
 .data
 
 .balign 4
 a:              .skip       400
 printf_str:     .asciz      "a[%d] = %d\n"
+min_str:		.asciz		"MINIMUM VALUE = %d"
+max_str:		.asciz		"MAXIMUM VALUE = %d"
 debug_str:
 .asciz "R%-2d   0x%08X  %011d \n"
 exit_str:       .ascii      "Terminating program.\n"
