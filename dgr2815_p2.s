@@ -3,9 +3,8 @@
    
 main:
     BL _seedrand            @ seed random number generator with current time
-	MOV R3, #1000			@ initialize max value for _min_check
-	MOV R4, #0				@ initialize min value for _max_check
 	MOV R0, #0              @ initialze index variable
+	MOV R4, #0				@ initialize min value for _max_check
 writeloop:
     CMP R0, #10             @ check to see if we are done iterating
     BEQ writedone           @ exit loop if done
@@ -31,6 +30,8 @@ readloop:
     LSL R2, R0, #2          @ multiply index*4 to get array offset
     ADD R2, R1, R2          @ R2 now has the element address
     LDR R1, [R2]            @ read the array at address 
+	CMP R0, #0
+	MOVEQ R3, R1
     PUSH {R0}               @ backup register before printf
     PUSH {R1}               @ backup register before printf
     PUSH {R2}               @ backup register before printf
