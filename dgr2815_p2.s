@@ -48,9 +48,9 @@ readloop:
 readdone:
 	LDR R0, =max_str
 	MOV R1, R4
+	BL printf
 	LDR R0, =min_str
 	MOV R1, R5
-	BL printf
 	BL printf
     B _exit                 @ exit if done
     
