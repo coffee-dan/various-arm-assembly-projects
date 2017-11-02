@@ -102,9 +102,10 @@ _mod_unsigned:
     MOV PC, LR          	@ return
 	
 _min_check:
-	CMP R2, #255			@ check to see if R2 <= R3
-	MOVLO R3, R2			@ new min value is R2
-	MOV PC, LR				@ return
+	CMP R2, R3			@ check to see if R2 <= R3
+	MOVGT PC, LR			@ new min value is R2
+	MOV R3, R2			@ return
+	MOV PC, LR
 	
 _max_check:
 	CMP R2, R4				@ check to see if R2 > R4
