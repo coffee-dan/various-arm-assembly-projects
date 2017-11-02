@@ -101,8 +101,6 @@ _mod_unsigned:
     MOV PC, LR          	@ return
 	
 _min_check:
-	CMP R2, R3				@ check to see if R2 <= R3
-	MOVLE R3, R2			@ new min value is R2
 	PUSH {LR}
 	PUSH {R0}
 	PUSH {R1}
@@ -112,6 +110,8 @@ _min_check:
 	POP {R1}
 	POP {R0}
 	POP {PC}
+	CMP R2, R3				@ check to see if R2 <= R3
+	MOVLE R3, R2			@ new min value is R2
 	MOV PC, LR				@ return
 	
 _max_check:
@@ -126,5 +126,5 @@ a:              .skip       400
 printf_str:     .asciz      "a[%d] = %d\n"
 min_str:		.asciz		"MINIMUM VALUE = %d\n"
 max_str:		.asciz		"MAXIMUM VALUE = %d\n"
-debug_str:		.asciz		"%d\n"
+debug_str:		.asciz		"%d and %d\n"
 exit_str:       .ascii      "Terminating program.\n"
