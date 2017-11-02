@@ -4,7 +4,7 @@
 main:
     BL _seedrand            @ seed random number generator with current time
     MOV R0, #0              @ initialze index variable
-	MOV R5, #1000			@ initialize max value for _min_check
+	MOV R3, #1000			@ initialize max value for _min_check
 	MOV R4, #0				@ initialize min value for _max_check
 writeloop:
     CMP R0, #10             @ check to see if we are done iterating
@@ -31,13 +31,13 @@ readloop:
     LSL R2, R0, #2          @ multiply index*4 to get array offset
     ADD R2, R1, R2          @ R2 now has the element address
     LDR R1, [R2]            @ read the array at address 
-	BL  _max_check
-	BL  _min_check
     PUSH {R0}               @ backup register before printf
     PUSH {R1}               @ backup register before printf
     PUSH {R2}               @ backup register before printf
     MOV R2, R1              @ move array value to R2 for printf
     MOV R1, R0              @ move array index to R1 for printf
+	BL  _max_check
+	BL  _min_check
     BL  _printf             @ branch to print procedure with return
     POP {R2}                @ restore register
     POP {R1}                @ restore register
@@ -101,8 +101,8 @@ _mod_unsigned:
     MOV PC, LR          	@ return
 	
 _min_check:
-	CMP R2, R5				@ check to see if R2 < R3
-	MOVLS R5, R2			@ new min value is R2
+	CMP R2, R3				@ check to see if R2 <= R3
+	MOVLE R3, R2			@ new min value is R2
 	MOV PC, LR				@ return
 	
 _max_check:
