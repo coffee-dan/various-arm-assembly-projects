@@ -4,7 +4,7 @@
 main:
     BL _seedrand            @ seed random number generator with current time
     MOV R0, #0              @ initialze index variable
-	MOV R3, #250			@ initialize max value for _min_check
+	MOV R3, #100			@ initialize max value for _min_check
 	MOV R4, #0				@ initialize min value for _max_check
 writeloop:
     CMP R0, #10             @ check to see if we are done iterating
@@ -111,7 +111,7 @@ _min_check:
 	POP {R0}
 	POP {PC}
 	CMP R2, R3				@ check to see if R2 <= R3
-	MOVLE R3, R2			@ new min value is R2
+	MOVLO R3, R2			@ new min value is R2
 	MOV PC, LR				@ return
 	
 _max_check:
