@@ -103,6 +103,11 @@ _mod_unsigned:
 _min_check:
 	CMP R2, R3				@ check to see if R2 < R3
 	MOVLS R3, R2			@ new min value is R2
+	PUSH {R1}
+	LDR R0, =debug_str
+	MOV R1, R3
+	BL printf
+	POP {R1}
 	MOV PC, LR				@ return
 	
 _max_check:
@@ -117,6 +122,5 @@ a:              .skip       400
 printf_str:     .asciz      "a[%d] = %d\n"
 min_str:		.asciz		"MINIMUM VALUE = %d\n"
 max_str:		.asciz		"MAXIMUM VALUE = %d\n"
-debug_str:
-.asciz "R%-2d   0x%08X  %011d \n"
+debug_str:		.asciz		"%d\n"
 exit_str:       .ascii      "Terminating program.\n"
