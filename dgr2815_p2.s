@@ -4,7 +4,7 @@
 main:
     BL _seedrand            @ seed random number generator with current time
     MOV R0, #0              @ initialze index variable
-	MOV R3, #999			@ initialize max value for _min_check
+	MOV R3, #500			@ initialize max value for _min_check
 	MOV R4, #0				@ initialize min value for _max_check
 writeloop:
     CMP R0, #10             @ check to see if we are done iterating
@@ -36,9 +36,9 @@ readloop:
     PUSH {R2}               @ backup register before printf
     MOV R2, R1              @ move array value to R2 for printf
     MOV R1, R0              @ move array index to R1 for printf
-    BL  _printf             @ branch to print procedure with return
-	BL  _min_check
 	BL  _max_check
+	BL  _min_check
+    BL  _printf             @ branch to print procedure with return
     POP {R2}                @ restore register
     POP {R1}                @ restore register
     POP {R0}                @ restore register
@@ -115,8 +115,8 @@ _max_check:
 .balign 4
 a:              .skip       400
 printf_str:     .asciz      "a[%d] = %d\n"
-min_str:		.asciz		"MINIMUM VALUE = %d"
-max_str:		.asciz		"MAXIMUM VALUE = %d"
+min_str:		.asciz		"MINIMUM VALUE = %d\n"
+max_str:		.asciz		"MAXIMUM VALUE = %d\n"
 debug_str:
 .asciz "R%-2d   0x%08X  %011d \n"
 exit_str:       .ascii      "Terminating program.\n"
