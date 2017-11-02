@@ -41,12 +41,13 @@ _scanf:
     POP {PC}                @ return
 
 _count_partitions:
-	PUSH {LR}				@ backup LR since BL with recursive calls
+	PUSH {LR}				@ store the return address
 	CMP R1, #0				@ is n <= 0
 	ADDEQ R0, R0, #1		@ if n == 0 "return 1;"
-	MOVLE PC, LR			@ early return if n <= 0
+	POPLE {PC}			    @ early return if n <= 0
 	CMP R2, #0				@ is m == 0
-	MOVEQ PC, LR			@ early return if m == 0
+	POPEQ {PC}			    @ early return if m == 0
+	
 	PUSH {R1}				@ back up n and m
 	PUSH {R2}
 	SUB R1, R1, R2			@ n = n - m
@@ -59,7 +60,7 @@ _count_partitions:
 	BL _count_partitions	@ count_partitions(n, m - 1)
 	POP {R2}				@ back up n and m
 	POP {R1}
-	POP {PC}				@ return to main
+	POP {PC}				@ restore SP and return
   
 .data
 operand:	.asciz	    "%d"
