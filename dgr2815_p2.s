@@ -31,14 +31,14 @@ readloop:
     ADD R2, R1, R2          @ R2 now has the element address
     LDR R1, [R2]            @ read the array at address 
 	CMP R0, #0
-	MOVEQ R3, R1
+	MOVEQ R5, R1
     PUSH {R0}               @ backup register before printf
     PUSH {R1}               @ backup register before printf
     PUSH {R2}               @ backup register before printf
     MOV R2, R1              @ move array value to R2 for printf
     MOV R1, R0              @ move array index to R1 for printf
-	BL  _max_check
 	BL  _min_check
+	BL  _max_check
     BL  _printf             @ branch to print procedure with return
     POP {R2}                @ restore register
     POP {R1}                @ restore register
@@ -46,11 +46,11 @@ readloop:
     ADD R0, R0, #1          @ increment index
     B   readloop            @ branch to next loop iteration
 readdone:
-    LDR R0, =min_str
-	MOV R1, R3
-	BL printf
 	LDR R0, =max_str
 	MOV R1, R4
+	LDR R0, =min_str
+	MOV R1, R5
+	BL printf
 	BL printf
     B _exit                 @ exit if done
     
@@ -102,9 +102,9 @@ _mod_unsigned:
     MOV PC, LR          	@ return
 	
 _min_check:
-	CMP R2, R3			@ check to see if R2 <= R3
+	CMP R2, R5			@ check to see if R2 <= R5
 	MOVGT PC, LR			@ new min value is R2
-	MOV R3, R2			@ return
+	MOV R5, R2			@ return
 	MOV PC, LR
 	
 _max_check:
