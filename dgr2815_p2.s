@@ -31,7 +31,7 @@ readloop:
     ADD R2, R1, R2          @ R2 now has the element address
     LDR R1, [R2]            @ read the array at address 
 	CMP R0, #0
-	MOVEQ R5, R1
+	MOVEQ R5, R1			@ set value for _min_check to first in array
     PUSH {R0}               @ backup register before printf
     PUSH {R1}               @ backup register before printf
     PUSH {R2}               @ backup register before printf
@@ -46,11 +46,11 @@ readloop:
     ADD R0, R0, #1          @ increment index
     B   readloop            @ branch to next loop iteration
 readdone:
-	LDR R0, =max_str
-	MOV R1, R4
-	BL printf
-	LDR R0, =min_str
+	LDR R0, =min_str		@ print min value
 	MOV R1, R5
+	BL printf
+	LDR R0, =max_str		@ print max value
+	MOV R1, R4
 	BL printf
     B _exit                 @ exit if done
     
@@ -102,10 +102,10 @@ _mod_unsigned:
     MOV PC, LR          	@ return
 	
 _min_check:
-	CMP R2, R5			@ check to see if R2 <= R5
-	MOVGT PC, LR			@ new min value is R2
-	MOV R5, R2			@ return
-	MOV PC, LR
+	CMP R2, R5				@ check to see if R2 <= R5
+	MOVGT PC, LR			@ early return
+	MOV R5, R2				@ new min value is R2
+	MOV PC, LR				@ return
 	
 _max_check:
 	CMP R2, R4				@ check to see if R2 > R4
