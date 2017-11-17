@@ -13,17 +13,17 @@ _loop:
 	
 	VCVT.F32.S32 S0, S0     @ convert unsigned bit representation to single float
 	VCVT.F64.F32 D4, S0
-	@ VMOV R1, R2, D4
+	VMOV R1, R2, D4
 	BL _first_print
 	
 	VCVT.F32.S32 S1, S1     @ convert unsigned bit representation to single float
-	VCVT.F64.F32 D5, S1
-	VMOV R3, R4, D5
+	VCVT.F64.F32 D4, S1
+	VMOV R1, R2, D4
 	BL _second_print
 	
 	VDIV.F32 S2, S0, S1     @ compute S2 = S0 / S1
-	VCVT.F64.F32 D6, S2     @ covert the result to double precision for printing
-	VMOV R5, R6, D6         @ split the double VFP register into two ARM registers
+	VCVT.F64.F32 D4, S2     @ covert the result to double precision for printing
+	VMOV R1, R2, D4         @ split the double VFP register into two ARM registers
 	BL _third_print
 	
 	B _loop					@ infinite loop
