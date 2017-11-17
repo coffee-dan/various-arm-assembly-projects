@@ -19,15 +19,15 @@ _loop:
 	VCVT.F64.F32 D4, S2     @ covert the result to double precision for printing
     
 	
-	VCVT.F64.F32 D2, S0
-	VMOV R1, R2, D2
+	VCVT.F64.F32 D4, S0
+	VMOV R1, R2, D4
 	BL _first_print
 	
-	VCVT.F64.F32 D3, S1
-	VMOV R3, R4, D3
+	VCVT.F64.F32 D4, S1
+	VMOV R1, R2, D4
 	BL _second_print
 	
-	VMOV R5, R6, D4         @ split the double VFP register into two ARM registers
+	VMOV R1, R2, D4         @ split the double VFP register into two ARM registers
 	BL _third_print
 	
 	B _loop					@ infinite loop
