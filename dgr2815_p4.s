@@ -16,10 +16,16 @@ _loop:
 	VMOV R1, R2, D4
 	BL _first_print
 	
+	MOV R1, #0
+	MOV R2, #0
+	
 	VCVT.F32.S32 S1, S1     @ convert unsigned bit representation to single float
 	VCVT.F64.F32 D4, S1
 	VMOV R1, R2, D4
 	BL _second_print
+	
+	MOV R1, #0
+	MOV R2, #0
 	
 	VDIV.F32 S2, S0, S1     @ compute S2 = S0 / S1
 	VCVT.F64.F32 D4, S2     @ covert the result to double precision for printing
