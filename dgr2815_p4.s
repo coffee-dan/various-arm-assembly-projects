@@ -13,7 +13,7 @@ _loop:
 	
 	VCVT.F32.S32 S0, S0     @ convert unsigned bit representation to single float
 	VCVT.F64.F32 D4, S0
-	VMOV R1, R2, D4
+	@ VMOV R1, R2, D4
 	BL _first_print
 	
 	VCVT.F32.S32 S1, S1     @ convert unsigned bit representation to single float
