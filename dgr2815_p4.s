@@ -8,23 +8,24 @@ main:
 _loop:
 	BL _scanf				@ scan for numerator
 	VMOV S0, R0             @ move the numerator to floating point register
+	MOV R4, R0
 	BL _scanf				@ scan for denominator
 	VMOV S1, R0             @ move the denominator to floating point register
+	MOV R5, R0
 	
 	VCVT.F32.S32 S0, S0     @ convert unsigned bit representation to single float
-	VCVT.F64.F32 D1, S0
-	VMOV R1, R2, D1
+	VCVT.F32.S32 S1, S1     @ convert unsigned bit representation to single float
+	
+
+	MOV R0, R4
+	MOV R1, R5
 	BL _first_print
 	
-	VCVT.F32.S32 S1, S1     @ convert unsigned bit representation to single float
-	VCVT.F64.F32 D2, S1
-	VMOV R1, R2, D2
-	BL _second_print
 	
 	VDIV.F32 S2, S0, S1     @ compute S2 = S0 / S1
 	VCVT.F64.F32 D3, S2     @ covert the result to double precision for printing
 	VMOV R1, R2, D3         @ split the double VFP register into two ARM registers
-	BL _third_print
+	BL _second_print
 	
 	B _loop					@ infinite loop
 	
@@ -59,16 +60,10 @@ _second_print:
     BL printf               @ call printf
     POP {PC}                @ pop LR from stack and return
 
-_third_print:
-	PUSH {LR}               @ push LR to stack
-    LDR R0, =third_str      @ R0 contains formatted string address
-    BL printf               @ call printf
-    POP {PC}                @ pop LR from stack and return
 
   
 .data
 operand:	.asciz	    "%d"
-first_str:  .asciz 		"%f / "
-second_str: .asciz		"%f = "
-third_str:  .asciz		"%f\n"
+first_str:  .asciz 		"%d / %d = "
+second_str: .asciz		"%f\n"
 exit_str:   .ascii      "Terminating program.\n"
