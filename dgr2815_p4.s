@@ -21,10 +21,14 @@ _loop:
 	
 	VCVT.F64.F32 D2, S0
 	VMOV R1, R2, D2
+	BL _first_print
+	
 	VCVT.F64.F32 D3, S1
 	VMOV R3, R4, D3
+	BL _second_print
+	
 	VMOV R5, R6, D4         @ split the double VFP register into two ARM registers
-	BL _printf_result
+	BL _third_print
 	
 	B _loop					@ infinite loop
 	
@@ -47,15 +51,28 @@ _scanf:
     ADD SP, SP, #4          @ restore the stack pointer
     POP {PC}                @ return
 
-_printf_result:
+_first_print:
     PUSH {LR}               @ push LR to stack
-    LDR R0, =result_str     @ R0 contains formatted string address
+    LDR R0, =first_str      @ R0 contains formatted string address
     BL printf               @ call printf
     POP {PC}                @ pop LR from stack and return
 	
+_second_print:
+	PUSH {LR}               @ push LR to stack
+    LDR R0, =second_str     @ R0 contains formatted string address
+    BL printf               @ call printf
+    POP {PC}                @ pop LR from stack and return
+
+_third_print:
+	PUSH {LR}               @ push LR to stack
+    LDR R0, =third_str      @ R0 contains formatted string address
+    BL printf               @ call printf
+    POP {PC}                @ pop LR from stack and return
 
   
 .data
 operand:	.asciz	    "%d"
-result_str: .asciz 		"%f / %f = %f\n"
+first_str:  .asciz 		"%f / "
+second_str: .asciz		"%f = "
+third_str:  .asciz		"%f\n"
 exit_str:   .ascii      "Terminating program.\n"
