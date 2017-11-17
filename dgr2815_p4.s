@@ -8,11 +8,11 @@ main:
 _loop:
 	BL _scanf				@ scan for numerator
 	VMOV S0, R0             @ move the numerator to floating point register
-	PUSH{R0}
+	MOV R3, R0
 	BL _scanf				@ scan for denominator
 	VMOV S1, R0             @ move the denominator to floating point register
 	MOV R1, R0
-	POP{R0}
+	MOV R0, R3
 	
 	VCVT.F32.S32 S0, S0     @ convert unsigned bit representation to single float
     VCVT.F32.S32 S1, S1     @ convert unsigned bit representation to single float
