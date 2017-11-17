@@ -50,5 +50,5 @@ _printf_result:
   
 .data
 operand:	.asciz	    "%d"
-result_str:	.asciz		"%The result is:%f\n"
+result_str:	.asciz		"The result is:%f\n"
 exit_str:   .ascii      "Terminating program.\n"
