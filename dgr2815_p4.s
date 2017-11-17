@@ -19,9 +19,11 @@ _loop:
 	VCVT.F64.F32 D4, S2     @ covert the result to double precision for printing
     
 	
-	VMOV R0, S0
-	VMOV R1, S1
-	VMOV R2, R3, D4         @ split the double VFP register into two ARM registers
+	VCVT.F64.F32 D2, S0
+	VMOV R1, R2, D2
+	VCVT.F64.F32 D3, S1
+	VMOV R3, R4, D3
+	VMOV R5, R6, D4         @ split the double VFP register into two ARM registers
 	BL _printf_result
 	
 	B _loop					@ infinite loop
@@ -55,5 +57,5 @@ _printf_result:
   
 .data
 operand:	.asciz	    "%d"
-result_str: .asciz 		"%d / %d = %f\n"
+result_str: .asciz 		"%f / %f = %f\n"
 exit_str:   .ascii      "Terminating program.\n"
