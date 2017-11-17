@@ -12,18 +12,18 @@ _loop:
 	VMOV S1, R0             @ move the denominator to floating point register
 	
 	VCVT.F32.S32 S0, S0     @ convert unsigned bit representation to single float
-	VCVT.F64.F32 D4, S0
-	VMOV R1, R2, D4
+	VCVT.F64.F32 D1, S0
+	VMOV R1, R2, D1
 	BL _first_print
 	
 	VCVT.F32.S32 S1, S1     @ convert unsigned bit representation to single float
-	VCVT.F64.F32 D4, S1
-	VMOV R1, R2, D4
+	VCVT.F64.F32 D2, S1
+	VMOV R1, R2, D2
 	BL _second_print
 	
 	VDIV.F32 S2, S0, S1     @ compute S2 = S0 / S1
-	VCVT.F64.F32 D4, S2     @ covert the result to double precision for printing
-	VMOV R1, R2, D4         @ split the double VFP register into two ARM registers
+	VCVT.F64.F32 D3, S2     @ covert the result to double precision for printing
+	VMOV R1, R2, D3         @ split the double VFP register into two ARM registers
 	BL _third_print
 	
 	B _loop					@ infinite loop
