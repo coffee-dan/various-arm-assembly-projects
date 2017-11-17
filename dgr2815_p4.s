@@ -8,11 +8,8 @@ main:
 _loop:
 	BL _scanf				@ scan for numerator
 	VMOV S0, R0             @ move the numerator to floating point register
-	MOV R3, R0
 	BL _scanf				@ scan for denominator
 	VMOV S1, R0             @ move the denominator to floating point register
-	MOV R2, R0
-	MOV R1, R3
 	
 	VCVT.F32.S32 S0, S0     @ convert unsigned bit representation to single float
     VCVT.F32.S32 S1, S1     @ convert unsigned bit representation to single float
@@ -20,10 +17,7 @@ _loop:
 	VDIV.F32 S2, S0, S1     @ compute S2 = S0 * S1
 	
 	VCVT.F64.F32 D4, S2     @ covert the result to double precision for printing
-    VMOV R3, R4, D4         @ split the double VFP register into two ARM registers
-	
-	MOV R1, R1
-	MOV R2, R2
+    VMOV R1, R2, D4         @ split the double VFP register into two ARM registers
 	
 	BL _printf_result
 	
