@@ -18,6 +18,9 @@ _loop:
 	
 	VDIV.F32 S2, S0, S1     @ compute S2 = S0 * S1
 	
+	VCVT.U32.F32 S0, S0     @ convert to signed bit representation
+    VCVT.U32.F32 S1, S1     @ convert to signed bit representation
+	
 	VCVT.F64.F32 D4, S2     @ covert the result to double precision for printing
     VMOV R1, R2, D4         @ split the double VFP register into two ARM registers
 	
@@ -52,5 +55,5 @@ _printf_result:
   
 .data
 operand:	.asciz	    "%d"
-result_str:	.asciz		"The result is:%f\n"
+result_str:	.asciz		"%d / %d = %f\n"
 exit_str:   .ascii      "Terminating program.\n"
