@@ -11,8 +11,8 @@ _loop:
 	MOV R3, R0
 	BL _scanf				@ scan for denominator
 	VMOV S1, R0             @ move the denominator to floating point register
-	MOV R1, R0
-	MOV R0, R3
+	MOV R2, R0
+	MOV R1, R3
 	
 	VCVT.F32.S32 S0, S0     @ convert unsigned bit representation to single float
     VCVT.F32.S32 S1, S1     @ convert unsigned bit representation to single float
@@ -20,11 +20,11 @@ _loop:
 	VDIV.F32 S2, S0, S1     @ compute S2 = S0 * S1
 	
 	VCVT.F64.F32 D4, S2     @ covert the result to double precision for printing
-    
+    VMOV R3, R4, D4         @ split the double VFP register into two ARM registers
 	
-	MOV R0, R0
 	MOV R1, R1
-	VMOV R2, R3, D4         @ split the double VFP register into two ARM registers
+	MOV R2, R2
+	
 	BL _printf_result
 	
 	B _loop					@ infinite loop
@@ -53,8 +53,10 @@ _printf_result:
     LDR R0, =result_str     @ R0 contains formatted string address
     BL printf               @ call printf
     POP {PC}                @ pop LR from stack and return
+	
+
   
 .data
 operand:	.asciz	    "%d"
-result_str:	.asciz		"%d / %d = %f\n"
+result_str: .asciz 		"%d / %d = %f\n"
 exit_str:   .ascii      "Terminating program.\n"
