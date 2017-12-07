@@ -77,6 +77,8 @@ searchloop:
     ADD R0, R0, #1          @ increment index
     B   searchloop          @ branch to next loop iteration
 searchdone:
+	CMP R4, #0
+	BLEQ _search_failed		@ display fail_str if search failed
     B _exit                 @ exit if done
     
 _exit:  
