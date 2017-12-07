@@ -61,7 +61,9 @@ searchloop:
     LSL R2, R0, #2          @ multiply index*4 to get array offset
     ADD R2, R1, R2          @ R2 now has the element address
     LDR R1, [R2]            @ read the array at address 
+	PUSH {R3}
 	CMP R1, R3
+	POP {R3}
     PUSHEQ {R0}               @ backup register before printf
     PUSHEQ {R1}               @ backup register before printf
     PUSHEQ {R2}               @ backup register before printf
