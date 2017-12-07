@@ -61,19 +61,18 @@ searchloop:
     LSL R2, R0, #2          @ multiply index*4 to get array offset
     ADD R2, R1, R2          @ R2 now has the element address
     LDR R1, [R2]            @ read the array at address 
-	PUSH {R5}				@!CMP is not corrupting R5
+
 	CMP R1, R5
-	POP {R5}
-    PUSHEQ {R0}               @ backup register before printf
-    PUSHEQ {R1}               @ backup register before printf
-    PUSHEQ {R2}               @ backup register before printf
-	
+    PUSHEQ {R0}             @ backup register before printf
+    PUSHEQ {R1}             @ backup register before printf
+    PUSHEQ {R2}             @ backup register before printf
     MOVEQ R2, R1            @ move array value to R2 for printf
     MOVEQ R1, R0            @ move array index to R1 for printf
     BLEQ  _printf           @ branch to print procedure with return
-    POPEQ {R2}                @ restore register
-    POPEQ {R1}                @ restore register
-    POPEQ {R0}                @ restore register
+    POPEQ {R2}              @ restore register
+    POPEQ {R1}              @ restore register
+    POPEQ {R0}              @ restore register
+	
     ADD R0, R0, #1          @ increment index
     B   searchloop          @ branch to next loop iteration
 searchdone:
