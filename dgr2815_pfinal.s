@@ -64,6 +64,7 @@ searchloop:
     LDR R1, [R2]            @ read the array at address 
 
 	CMP R1, R5
+	MOVEQ R4, #1
     PUSHEQ {R0}             @ backup register before printf
     PUSHEQ {R1}             @ backup register before printf
     PUSHEQ {R2}             @ backup register before printf
