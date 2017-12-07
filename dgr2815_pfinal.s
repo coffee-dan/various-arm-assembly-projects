@@ -16,7 +16,7 @@ main:
 writeloop:
     CMP R0, #10             @ check to see if we are done iterating
     BEQ writedone           @ exit loop if done
-    LDR R1, =a              @ get address of a
+    LDR R1, =a              @ get address of array_a
     LSL R2, R0, #2          @ multiply index*4 to get array offset
     ADD R2, R1, R2          @ R2 now has the element address
     PUSH {R0}               @ backup iterator before _scanf call
@@ -25,7 +25,7 @@ writeloop:
     BL _scanf            	@ get user input
 	POP {R1} 				@ restore R1
     POP {R2}                @ restore element address
-    STR R0, [R2]            @ write the address of a[i] to a[i]
+    STR R0, [R2]            @ write the address of array_a[i] to array_a[i]
     POP {R0}                @ restore iterator
     ADD R0, R0, #1          @ increment index
     B   writeloop           @ branch to next loop iteration
@@ -34,7 +34,7 @@ writedone:
 readloop:
     CMP R0, #10             @ check to see if we are done iterating
     BEQ readdone            @ exit loop if done
-    LDR R1, =a              @ get address of a
+    LDR R1, =a              @ get address of array_a
     LSL R2, R0, #2          @ multiply index*4 to get array offset
     ADD R2, R1, R2          @ R2 now has the element address
     LDR R1, [R2]            @ read the array at address 
@@ -58,27 +58,27 @@ readdone:
 searchloop:
 	CMP R0, #10             @ check to see if we are done iterating
     BEQ searchdone          @ exit loop if done
-    LDR R1, =a              @ get address of a
+    LDR R1, =a              @ get address of array_a
     LSL R2, R0, #2          @ multiply index*4 to get array offset
     ADD R2, R1, R2          @ R2 now has the element address
     LDR R1, [R2]            @ read the array at address 
 
-	CMP R1, R5
-	MOVEQ R4, #1
-    PUSHEQ {R0}             @ backup register before printf
-    PUSHEQ {R1}             @ backup register before printf
-    PUSHEQ {R2}             @ backup register before printf
-    MOVEQ R2, R1            @ move array value to R2 for printf
-    MOVEQ R1, R0            @ move array index to R1 for printf
-    BLEQ  _printf           @ branch to print procedure with return
-    POPEQ {R2}              @ restore register
-    POPEQ {R1}              @ restore register
-    POPEQ {R0}              @ restore register
+	CMP R1, R5				@ compare array value to search element
+	MOVEQ R4, #1			@ change search successful boolean to true if equal
+    PUSHEQ {R0}             @ backup register before printf if equal
+    PUSHEQ {R1}             @ backup register before printf if equal
+    PUSHEQ {R2}             @ backup register before printf if equal
+    MOVEQ R2, R1            @ move array value to R2 for printf if equal
+    MOVEQ R1, R0            @ move array index to R1 for printf if equal
+    BLEQ  _printf           @ branch to print procedure with return if equal
+    POPEQ {R2}              @ restore register if equal
+    POPEQ {R1}              @ restore register if equal
+    POPEQ {R0}              @ restore register if equal
 	
     ADD R0, R0, #1          @ increment index
     B   searchloop          @ branch to next loop iteration
 searchdone:
-	CMP R4, #0
+	CMP R4, #0				@ determine of search failed
 	BLEQ _search_failed		@ display fail_str if search failed
     B _exit                 @ exit if done
     
