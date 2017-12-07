@@ -53,7 +53,8 @@ readdone:
 	BL _prompt				@ branch to prompt procedure with return
 	BL _scanf				@ branch to scanf procedure with return
 	MOV R5, R0				@ move scanf value to R5
-	MOV R0, #0              @ initialze index variable
+	MOV R4, #0				@ initialze search successful boolean
+	MOV R0, #0              @ reinitialze index variable
 searchloop:
 	CMP R0, #10             @ check to see if we are done iterating
     BEQ searchdone          @ exit loop if done
@@ -110,12 +111,21 @@ _prompt:
     LDR R1, =prompt_str     @ string at label prompt_str:
     SWI 0                   @ execute syscall
     MOV PC, LR              @ return
-   
+ 
+_search_failed:
+    MOV R7, #4              @ write syscall, 4
+    MOV R0, #1              @ output stream to monitor, 1
+    MOV R2, #41             @ print string length
+    LDR R1, =fail_str       @ string at label fail_str:
+    SWI 0                   @ execute syscall
+    MOV PC, LR              @ return
+	
 .data
 
 .balign 4
 a:              .skip       40
 prompt_str:		.asciz		"ENTER A SEARCH VALUE: "
+fail_str:		.asciz		"That value does not exist in the array!\n"
 format_str:     .asciz      "%d"
 printf_str:     .asciz      "a[%d] = %d\n"
 exit_str:       .ascii      "Terminating program.\n"
