@@ -130,5 +130,5 @@ a:              .skip       40
 prompt_str:		.asciz		"ENTER A SEARCH VALUE: "
 fail_str:		.asciz		"That value does not exist in the array!\n"
 format_str:     .asciz      "%d"
-printf_str:     .asciz      "a[%d] = %d\n"
+printf_str:     .asciz      "array_a[%d] = %d\n"
 exit_str:       .ascii      "Terminating program.\n"
